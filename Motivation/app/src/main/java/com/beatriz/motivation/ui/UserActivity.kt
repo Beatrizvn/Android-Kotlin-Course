@@ -13,6 +13,7 @@ import com.beatriz.motivation.databinding.ActivityUserBinding
 class UserActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityUserBinding
+    private lateinit var securityPreferences: SecurityPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,37 +24,29 @@ class UserActivity : AppCompatActivity(), View.OnClickListener {
         //Esconder a barra
         supportActionBar?.hide()
 
+        // Inicializa variáveis da classe
+        securityPreferences = SecurityPreferences(this)
+
         //Eventos
         binding.buttonSave.setOnClickListener(this)
-
-        //verifica se ja tem nome
-        verifyUserName()
     }
 
     override fun onClick(view: View) {
+        // val id: Int? = view?.id
         if (view.id == R.id.button_save) {
             handleSave()
-        }
-    }
-
-    private fun startMain() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish() // desativa a anterior, para eu nao conseguir voltar
-    }
-
-    private fun verifyUserName() {
-        val name = SecurityPreferences(this).getString(MotivationConstants.KEY.USER_NAME)
-        if (name != "") {
-            startMain()
         }
     }
 
     private fun handleSave() {
         val name = binding.editName.text.toString()
 
+        // Verifica se usuário preencheu o nome
         if (name != "") {
+            // Salva os dados do usuário e redireciona para as frases
             SecurityPreferences(this).storeString(MotivationConstants.KEY.USER_NAME, name)
-            startMain()
+            // Impede que seja possível voltar a Activity
+            finish()
         } else {
             Toast.makeText(this, R.string.validation_mandatory_name, Toast.LENGTH_SHORT).show()
         }
