@@ -10,6 +10,7 @@ import com.beatriz.motivation.R
 import com.beatriz.motivation.infra.SecurityPreferences
 import com.beatriz.motivation.databinding.ActivityMainBinding
 import com.beatriz.motivation.data.Mock
+import java.util.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -84,7 +85,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun showUserName() {
         val name = SecurityPreferences(this).getString(MotivationConstants.KEY.USER_NAME)
-        binding.textUserName.text = "Olá, $name!"
+        val hello = getString(R.string.hello)
+        binding.textUserName.text = "$hello, $name!"
     }
 
     private fun setListeners() {
@@ -134,7 +136,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      * Função responsavel por mudar a frase
      */
     private fun handleNewPhrase() {
-        val phrase = Mock().randomPhrase(filter)
+        val phrase = Mock().randomPhrase(filter, Locale.getDefault().language)
         binding.textPhrase.text = phrase
     }
 
