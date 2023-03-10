@@ -1,4 +1,4 @@
-package com.beatriz.convidados.ui
+package com.beatriz.convidados.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

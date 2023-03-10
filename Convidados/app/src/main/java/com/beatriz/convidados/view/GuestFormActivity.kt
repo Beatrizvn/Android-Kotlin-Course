@@ -1,10 +1,13 @@
-package com.beatriz.convidados
+package com.beatriz.convidados.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import com.beatriz.convidados.model.GuestModel
+import com.beatriz.convidados.R
 import com.beatriz.convidados.databinding.ActivityGuestFormBinding
+import com.beatriz.convidados.viewmodel.GuestFormViewModel
 
 class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -23,8 +26,13 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        if(v.id == R.id.button_save){
+        if (v.id == R.id.button_save) {
+            val name = binding.editName.text.toString()
+            val presence = binding.radioPresence.isChecked
 
+            val model = GuestModel(0, name, presence)
+
+            viewModel.insert(model)
         }
     }
 }
