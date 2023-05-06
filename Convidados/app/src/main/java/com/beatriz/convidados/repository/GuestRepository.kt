@@ -20,7 +20,6 @@ class GuestRepository private constructor(context: Context) {
         }
     }
 
-    // Inserir no banco um convidado
     fun insert(guest: GuestModel): Boolean {
         return try {
             val db = guestDataBase.writableDatabase
@@ -69,7 +68,7 @@ class GuestRepository private constructor(context: Context) {
         }
     }
 
-    fun delete(guestID: Int): Boolean{
+    fun delete(guestID: Int): Boolean {
         return try {
             val db = guestDataBase.writableDatabase
 
@@ -82,4 +81,39 @@ class GuestRepository private constructor(context: Context) {
             false
         }
     }
+
+    fun getAll(): List<GuestModel> {
+
+        val list = mutableListOf<GuestModel>()
+
+        try {
+            val db = guestDataBase.readableDatabase
+
+            val selection = arrayOf(
+                DataBaseConstants.GUEST.COLUMNS.ID,
+                DataBaseConstants.GUEST.COLUMNS.NAME,
+                DataBaseConstants.GUEST.COLUMNS.PRESENCE
+            )
+
+            val cursor = db.query(DataBaseConstants.GUEST.TABLE_NAME, selection, null, null, null, null, null)
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()){
+                    val id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
+                    val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+
+                    val guest = GuestModel(id,name,presence == 1)
+
+                    list.add(guest)
+                }
+            }
+
+            cursor.close()
+            return list
+        } catch (e: Exception){
+            return list
+        }
+    }
+
 }
