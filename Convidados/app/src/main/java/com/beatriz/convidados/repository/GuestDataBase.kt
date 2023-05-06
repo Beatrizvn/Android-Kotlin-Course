@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.beatriz.convidados.constants.DataBaseConstants
 
-
 class GuestDataBase(context: Context) : SQLiteOpenHelper(context, NAME, null, VERSION) {
 
     companion object {

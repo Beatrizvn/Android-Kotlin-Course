@@ -12,8 +12,6 @@ class GuestRepository private constructor(context: Context) {
     // Singleton
     companion object {
         private lateinit var repository: GuestRepository
-
-
         fun getInstance(context: Context): GuestRepository {
             if (!Companion::repository.isInitialized) {
                 repository = GuestRepository(context)
@@ -22,6 +20,7 @@ class GuestRepository private constructor(context: Context) {
         }
     }
 
+    // Inserir no banco um convidado
     fun insert(guest: GuestModel): Boolean {
         return try {
             val db = guestDataBase.writableDatabase
@@ -41,4 +40,46 @@ class GuestRepository private constructor(context: Context) {
 
     }
 
+    fun update(guest: GuestModel): Boolean {
+        return try {
+            /*
+            Comando direto no mysql:
+            UPDATE Customers
+            SET ContactName = 'Alfred Schmidt', City = 'Frankfurt'
+            WHERE CustomerID = 1;
+             */
+            val presence = if (guest.presence) 1 else 0
+            val db = guestDataBase.writableDatabase
+
+            // esse é o SET
+            // primeiro parametro 'colunas' segundo parametro 'dados'
+            val values = ContentValues()
+            values.put(DataBaseConstants.GUEST.COLUMNS.NAME, guest.name)
+            values.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, presence)
+
+            //esse é o WHERE
+            // selection 'coluna' args 'argumento da coluna'
+            val selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?"
+            val args = arrayOf(guest.id.toString())
+
+            db.update(DataBaseConstants.GUEST.TABLE_NAME, values, selection, args)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun delete(guestID: Int): Boolean{
+        return try {
+            val db = guestDataBase.writableDatabase
+
+            val selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?"
+            val args = arrayOf(guestID.toString())
+
+            db.delete(DataBaseConstants.GUEST.TABLE_NAME, selection, args)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
