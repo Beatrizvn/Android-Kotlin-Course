@@ -7,6 +7,7 @@ import com.beatriz.convidados.model.GuestModel
 
 class GuestRepository private constructor(context: Context) {
 
+    // Acesso ao banco de dados
     private var guestDataBase: GuestDataBase = GuestDataBase(context)
 
     // Singleton
@@ -89,19 +90,80 @@ class GuestRepository private constructor(context: Context) {
         try {
             val db = guestDataBase.readableDatabase
 
-            val selection = arrayOf(
+            val projection = arrayOf(
                 DataBaseConstants.GUEST.COLUMNS.ID,
                 DataBaseConstants.GUEST.COLUMNS.NAME,
                 DataBaseConstants.GUEST.COLUMNS.PRESENCE
             )
 
-            val cursor = db.query(DataBaseConstants.GUEST.TABLE_NAME, selection, null, null, null, null, null)
+            val cursor = db.query(DataBaseConstants.GUEST.TABLE_NAME, projection, null, null, null, null, null)
 
             if (cursor != null && cursor.count > 0) {
                 while (cursor.moveToNext()){
-                    val id = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
-                    val name = cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
-                    val presence = cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+                    val id = cursor.getInt(0)
+                    val name = cursor.getString(1)
+                    val presence = cursor.getInt(2)
+
+                    val guest = GuestModel(id,name,presence == 1)
+
+                    list.add(guest)
+                }
+            }
+
+            cursor.close()
+            return list
+        } catch (e: Exception){
+            return list
+        }
+    }
+    // aqui é usado o rawQuery, ele é menos recomendado por mais que seja escrito menos codigo
+    fun getPresent(): List<GuestModel> {
+
+        val list = mutableListOf<GuestModel>()
+
+        try {
+            val db = guestDataBase.readableDatabase
+
+            val cursor = db.rawQuery("SELECT id,name,presence FROM Guest WHERE presence = 1",null)
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()){
+                    val id = cursor.getInt(0)
+                    val name = cursor.getString(1)
+                    val presence = cursor.getInt(2)
+
+                    val guest = GuestModel(id,name,presence == 1)
+
+                    list.add(guest)
+                }
+            }
+
+            cursor.close()
+            return list
+        } catch (e: Exception){
+            return list
+        }
+    }
+
+    /*
+    Isso aqui é criminoso pois poderiamos juntar a fun getPresent e getAbsent em uma só
+    Ja que a unica alteração entre eles é o parametro presence em val curso.
+    Porem como no curso ele disse que por enquanto preferia deixar separado, também vou deixar
+     */
+    fun getAbsent(): List<GuestModel> {
+
+        val list = mutableListOf<GuestModel>()
+
+        try {
+            val db = guestDataBase.readableDatabase
+
+            val cursor = db.rawQuery("SELECT id,name,presence FROM Guest WHERE presence = 0",null)
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()){
+                    val id = cursor.getInt(0)
+                    val name = cursor.getString(1)
+                    val presence = cursor.getInt(2)
 
                     val guest = GuestModel(id,name,presence == 1)
 
