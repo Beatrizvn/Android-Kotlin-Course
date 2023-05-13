@@ -8,7 +8,9 @@
         android:id="@+id/text_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Convidado"
-        android:textSize="24sp"/>
+        android:padding="16dp"
+        android:text="CONVIDADO"
+        android:textSize="16sp" />
+
 
 </LinearLayout>

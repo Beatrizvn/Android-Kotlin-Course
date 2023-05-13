@@ -27,7 +27,7 @@ class AllGuestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val viewModel = ViewModelProvider(this).get(AllGuestsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AllGuestsViewModel::class.java]
         _binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
 
         // Layout -> sabe como vai ordenar e disponibilizar a listagem
@@ -49,6 +49,7 @@ class AllGuestsFragment : Fragment() {
     }
 
     private fun observe() {
+
         viewModel.guests.observe(viewLifecycleOwner) {
             adapter.updatedGuests(it)
         }

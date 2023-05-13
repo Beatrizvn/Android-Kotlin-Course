@@ -1,6 +1,5 @@
 package com.beatriz.convidados.view.viewHolder
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.beatriz.convidados.databinding.RowGuestBinding
 import com.beatriz.convidados.model.GuestModel
