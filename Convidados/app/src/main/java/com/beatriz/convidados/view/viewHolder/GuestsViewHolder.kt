@@ -26,7 +26,6 @@ class GuestsViewHolder(private val bind: RowGuestBinding, private val listener: 
                 .create()
                 .show()
 
-            listener.onDelete(guest.id)
             true
         }
     }

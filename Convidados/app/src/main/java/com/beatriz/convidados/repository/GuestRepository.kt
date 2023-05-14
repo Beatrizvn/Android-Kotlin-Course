@@ -1,7 +1,7 @@
 package com.beatriz.convidados.repository
 
-import android.content.Context
 import android.content.ContentValues
+import android.content.Context
 import com.beatriz.convidados.constants.DataBaseConstants
 import com.beatriz.convidados.model.GuestModel
 
@@ -81,6 +81,45 @@ class GuestRepository private constructor(context: Context) {
         } catch (e: Exception) {
             false
         }
+    }
+
+    fun get(id: Int): GuestModel? {
+
+        var guest: GuestModel? = null
+
+        try {
+            val db = guestDataBase.readableDatabase
+
+            val projection = arrayOf(
+                DataBaseConstants.GUEST.COLUMNS.ID,
+                DataBaseConstants.GUEST.COLUMNS.NAME,
+                DataBaseConstants.GUEST.COLUMNS.PRESENCE
+            )
+
+            val selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?"
+            val args = arrayOf(id.toString())
+
+            val cursor = db.query(
+                DataBaseConstants.GUEST.TABLE_NAME,
+                projection, selection, args,
+                null, null, null
+            )
+
+            if (cursor != null && cursor.count > 0) {
+                while (cursor.moveToNext()) {
+                    val name = cursor.getString(1)
+                    val presence = cursor.getInt(2)
+
+                    guest = GuestModel(id, name, presence == 1)
+
+                }
+            }
+
+            cursor.close()
+        } catch (e: Exception) {
+            return guest
+        }
+        return guest
     }
 
     fun getAll(): List<GuestModel> {
