@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.beatriz.convidados.model.GuestModel
 import com.beatriz.convidados.repository.GuestRepository
 
-class AllGuestsViewModel(application: Application) : AndroidViewModel(application) {
+class GuestsViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: GuestRepository = GuestRepository.getInstance(application.applicationContext)
     private val listAllGuests = MutableLiveData<List<GuestModel>>()
@@ -17,7 +17,15 @@ class AllGuestsViewModel(application: Application) : AndroidViewModel(applicatio
         listAllGuests.value = repository.getAll()
     }
 
-    fun delete(id: Int){
+    fun getAbsent() {
+        listAllGuests.value = repository.getAbsent()
+    }
+
+    fun getPresent() {
+        listAllGuests.value = repository.getPresent()
+    }
+
+    fun delete(id: Int) {
         repository.delete(id)
     }
 

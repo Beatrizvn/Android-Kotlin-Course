@@ -12,14 +12,14 @@ import com.beatriz.convidados.constants.DataBaseConstants
 import com.beatriz.convidados.databinding.FragmentAllGuestsBinding
 import com.beatriz.convidados.view.adapter.GuestAdapter
 import com.beatriz.convidados.view.listener.OnGuestListener
-import com.beatriz.convidados.viewmodel.AllGuestsViewModel
+import com.beatriz.convidados.viewmodel.GuestsViewModel
 
 class AllGuestsFragment : Fragment() {
 
     private var _binding: FragmentAllGuestsBinding? = null
     private val binding get() = _binding!!
     private val adapter = GuestAdapter()
-    private lateinit var viewModel: AllGuestsViewModel
+    private lateinit var viewModel: GuestsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +27,7 @@ class AllGuestsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        viewModel = ViewModelProvider(this)[AllGuestsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[GuestsViewModel::class.java]
         _binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
 
         // Layout -> sabe como vai ordenar e disponibilizar a listagem

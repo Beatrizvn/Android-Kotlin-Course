@@ -3,6 +3,7 @@ package com.beatriz.convidados.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.beatriz.convidados.model.GuestModel
 import com.beatriz.convidados.R
@@ -46,14 +47,19 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun observe() {
-        viewModel.guest.observe(this, {
+        viewModel.guest.observe(this) {
             binding.editName.setText(it.name)
             if (it.presence) {
                 binding.radioPresence.isChecked = true
             } else {
                 binding.radioAbsent.isChecked = true
             }
-        })
+        }
+
+        viewModel.saveGuest.observe(this) {
+            Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
+            finish()
+        }
     }
 
     private fun loadData() {
