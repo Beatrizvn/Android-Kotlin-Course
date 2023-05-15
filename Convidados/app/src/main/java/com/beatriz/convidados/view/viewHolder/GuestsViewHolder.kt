@@ -7,15 +7,19 @@ import com.beatriz.convidados.model.GuestModel
 import com.beatriz.convidados.view.listener.OnGuestListener
 
 class GuestsViewHolder(private val bind: RowGuestBinding, private val listener: OnGuestListener) :
+
     RecyclerView.ViewHolder(bind.root) {
 
     fun bind(guest: GuestModel) {
+        // Atribui valores
         bind.textName.text = guest.name
 
+        // Atribui eventos
         bind.textName.setOnClickListener {
             listener.onClick(guest.id)
         }
 
+        // Atribui eventos
         bind.textName.setOnLongClickListener {
 
             AlertDialog.Builder(itemView.context)

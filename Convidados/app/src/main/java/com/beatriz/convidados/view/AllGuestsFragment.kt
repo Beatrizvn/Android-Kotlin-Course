@@ -30,10 +30,16 @@ class AllGuestsFragment : Fragment() {
         viewModel = ViewModelProvider(this)[GuestsViewModel::class.java]
         _binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
 
-        // Layout -> sabe como vai ordenar e disponibilizar a listagem
+        /*
+        Layout -> sabe como vai ordenar e disponibilizar a listagem
+        Atribui um layout que diz como a RecyclerView se comporta
+        */
         binding.recyclerAllGuests.layoutManager = LinearLayoutManager(context)
 
-        // Adapter -> faz a cola entre o layout e a sua lista
+        /*
+        Adapter -> faz a cola entre o layout e a sua lista
+        Faz a ligação da RecyclerView com a listagem de itens
+         */
         binding.recyclerAllGuests.adapter = adapter
 
         val listener = object : OnGuestListener {
@@ -71,7 +77,6 @@ class AllGuestsFragment : Fragment() {
     }
 
     private fun observe() {
-
         viewModel.guests.observe(viewLifecycleOwner) {
             adapter.updatedGuests(it)
         }
