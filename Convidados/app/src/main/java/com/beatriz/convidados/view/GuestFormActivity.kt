@@ -37,7 +37,11 @@ class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
             val name = binding.editName.text.toString()
             val presence = binding.radioPresence.isChecked
 
-            val model = GuestModel(guestId, name, presence)
+            val model = GuestModel().apply {
+                this.id = guestId
+                this.name = name
+                this.presence = presence
+            }
 
             viewModel.save(model)
 
