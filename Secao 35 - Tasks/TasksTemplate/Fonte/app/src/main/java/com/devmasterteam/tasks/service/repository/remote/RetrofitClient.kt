@@ -22,5 +22,14 @@ class RetrofitClient private constructor() {
             }
             return INSTANCE
         }
+
+        /*
+        Essa parte conecta nosso RetrofitClient com o service que a gente quer, depois isso é usado em algum Repository
+        Ex: Em PersonRepository essa função é chamada passando como parametro o PersonService =D
+         */
+        fun <T> getService(serviceClass: Class<T>): T {
+            return getRetrofitInstance().create(serviceClass)
+        }
+
     }
 }
