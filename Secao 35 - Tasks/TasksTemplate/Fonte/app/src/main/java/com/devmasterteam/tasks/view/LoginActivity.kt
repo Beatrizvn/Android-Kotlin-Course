@@ -40,6 +40,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun observe() {
     }
 
+    /*
+    Caminho de ida: LoginActivity -> LoginViewModel -> PersonRepository -> PersonService -> RetrofitClient -> PersonModel
+    Caminho de volta: PersonRepository + APIListener -> LoginViewModel + APIListener
+     */
     private fun handleLogin(){
         val email =  binding.editEmail.text.toString()
         val password = binding.editPassword.text.toString()
