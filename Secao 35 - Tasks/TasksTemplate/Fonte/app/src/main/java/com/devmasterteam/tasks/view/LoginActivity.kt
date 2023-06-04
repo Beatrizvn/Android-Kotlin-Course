@@ -53,7 +53,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     /*
     Caminho de ida: LoginActivity -> LoginViewModel -> PersonRepository -> PersonService -> RetrofitClient -> PersonModel
-    Caminho de volta: PersonRepository + APIListener -> LoginViewModel + APIListener
+    Caminho de volta: PersonRepository + Chama o listener.onSucess() ou listener.onFailure() (APIListener suas funções estão override pela LoginViewModel) ->
+    LoginViewModel (recebe a chamada de algumas das duas funções) -> LoginActivity fun observe, que esta observando alguma mudança
      */
     private fun handleLogin(){
         val email =  binding.editEmail.text.toString()

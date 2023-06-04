@@ -22,7 +22,6 @@ class PersonRepository(val context: Context) {
 
         call.enqueue(object : Callback<PersonModel> {
             override fun onResponse(call: Call<PersonModel>, response: Response<PersonModel>) {
-
                 if (response.code() == TaskConstants.HTTP.SUCCESS){
                     response.body()?.let { listener.onSucess(it) }
                 } else {
